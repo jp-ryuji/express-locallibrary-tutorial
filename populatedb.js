@@ -2,7 +2,7 @@
 
 console.log('This script populates some test books, authors, genres and bookinstances to your database. Specified database as argument - e.g.: populatedb mongodb://your_username:your_password@your_dabase_url');
 
-//Get arguments passed on command line
+// Get arguments passed on command line
 var userArgs = process.argv.slice(2);
 if (!userArgs[0].startsWith('mongodb://')) {
     console.log('ERROR: You need to specify a valid mongodb URL as the first argument');
@@ -32,9 +32,9 @@ function authorCreate(first_name, family_name, d_birth, d_death, cb) {
   authordetail = {first_name:first_name , family_name: family_name }
   if (d_birth != false) authordetail.date_of_birth = d_birth
   if (d_death != false) authordetail.date_of_death = d_death
-  
+
   var author = new Author(authordetail);
-       
+
   author.save(function (err) {
     if (err) {
       cb(err, null)
@@ -48,7 +48,7 @@ function authorCreate(first_name, family_name, d_birth, d_death, cb) {
 
 function genreCreate(name, cb) {
   var genre = new Genre({ name: name });
-       
+
   genre.save(function (err) {
     if (err) {
       cb(err, null);
@@ -61,15 +61,15 @@ function genreCreate(name, cb) {
 }
 
 function bookCreate(title, summary, isbn, author, genre, cb) {
-  bookdetail = { 
+  bookdetail = {
     title: title,
     summary: summary,
     author: author,
     isbn: isbn
   }
   if (genre != false) bookdetail.genre = genre
-    
-  var book = new Book(bookdetail);    
+
+  var book = new Book(bookdetail);
   book.save(function (err) {
     if (err) {
       cb(err, null)
@@ -83,14 +83,14 @@ function bookCreate(title, summary, isbn, author, genre, cb) {
 
 
 function bookInstanceCreate(book, imprint, due_back, status, cb) {
-  bookinstancedetail = { 
+  bookinstancedetail = {
     book: book,
     imprint: imprint
-  }    
+  }
   if (due_back != false) bookinstancedetail.due_back = due_back
   if (status != false) bookinstancedetail.status = status
-    
-  var bookinstance = new BookInstance(bookinstancedetail);    
+
+  var bookinstance = new BookInstance(bookinstancedetail);
   bookinstance.save(function (err) {
     if (err) {
       console.log('ERROR CREATING BookInstance: ' + bookinstance);
@@ -221,6 +221,6 @@ function(err, results) {
         console.log('BOOKInstances: '+bookinstances);
 
     }
-    //All done, disconnect from database
+    // All done, disconnect from database
     mongoose.connection.close();
 });
